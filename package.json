@@ -9,6 +9,7 @@
     "axios": "^0.27.2",
     "bourbon": "^7.2.0",
     "fluture": "^14.0.0",
+    "immutable": "^4.0.0",
     "memoizee": "^0.4.15",
     "ramda": "^0.28.0",
     "react": "^18.1.0",

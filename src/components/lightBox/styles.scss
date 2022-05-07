@@ -1,0 +1,27 @@
+@import "bourbon";
+
+.lightbox {
+	@include position(absolute, 0 0 0 0);
+	@include size(100%);
+	display: flex;
+	flex-flow: row-reverse wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.light {
+	@include size(20px);
+	@include margin(10px);
+	border-radius: 20px;
+	border: medium solid black;
+}
+
+.light-on {
+	@extend .light;
+	background-color: red;
+}
+
+.light-off {
+	@extend .light;
+	background-color: white;
+}

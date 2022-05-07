@@ -1,6 +1,6 @@
 @import "bourbon";
 
-.home-layout {
+.layout {
 	@include position(absolute, 0 0 0 0);
 	@include size(100%);
 

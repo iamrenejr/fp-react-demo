@@ -4,7 +4,7 @@ import { memop } from '../../../../lib/utils/memo';
 import actions from '../../../../lib/frp/actions';
 import connect from '../../../../lib/frp/connect';
 
-export const navigation = memop(({ state }) =>
+export const navigation = memop(state =>
   pipe(
     chain(() =>
       Future((_, res) => {

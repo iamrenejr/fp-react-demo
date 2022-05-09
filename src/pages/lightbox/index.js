@@ -24,33 +24,31 @@ export const wrapCmdBtns = x => <div className="cmd-btns">{x}</div>;
 
 export const wrapInDiv = x => <div className="light-layout">{x}</div>;
 
-export const lightbox = memop(
-  ({ state: [step, lightsCount], dispatch }) =>
-    seedPipe(
-      concat(
-        seedPipe(
-          concat(
-            lightStateCalculator(lightsCount)(step)
-              .map(lightBox)
-              .reduce(concat, View.empty)
-          ),
-          map(wrapLights)
-        )
-      ),
-      concat(
-        seedPipe(
-          concat(
-            navToBtn({
-              text: 'Go To Math',
-              goto: '/',
-              dispatch,
-            })
-          ),
-          map(wrapCmdBtns)
-        )
-      ),
-      map(wrapInDiv)
-    )
+export const lightbox = memop(([step, lightsCount]) =>
+  seedPipe(
+    concat(
+      seedPipe(
+        concat(
+          lightStateCalculator(lightsCount)(step)
+            .map(lightBox)
+            .reduce(concat, View.empty)
+        ),
+        map(wrapLights)
+      )
+    ),
+    concat(
+      seedPipe(
+        concat(
+          navToBtn({
+            text: 'Go To Math',
+            goto: '/',
+          })
+        ),
+        map(wrapCmdBtns)
+      )
+    ),
+    map(wrapInDiv)
+  )
 );
 
 export default connect([

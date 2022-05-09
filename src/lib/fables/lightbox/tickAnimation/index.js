@@ -1,14 +1,14 @@
 import Future, { chain, resolve } from 'fluture';
 import { add, compose, map, pipe } from '../../../fp/pointfree';
 import memo, { memop } from '../../../../lib/utils/memo';
+import connect, { dispatch } from '../../../../lib/frp/connect';
 import actions from '../../../../lib/frp/actions';
-import connect from '../../../../lib/frp/connect';
 
 const maxLightStateStep = memo(i =>
   i === 1 ? 1 : 1 + 2 * maxLightStateStep(i - 1)
 );
 
-export const tickAnimation = memop(({ state, dispatch }) =>
+export const tickAnimation = memop(state =>
   pipe(
     chain(() =>
       Future((_, res) => {

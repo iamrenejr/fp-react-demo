@@ -25,7 +25,7 @@ export const connect = stateKeys => page =>
   new Observable(obs => {
     const next = compose(x => obs.next(x), page);
     const combined$ = keysToObservable(stateKeys);
-    combined$.subscribe(state => next({ state, dispatch }));
+    combined$.subscribe(next);
   });
 
 export default connect;

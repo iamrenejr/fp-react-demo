@@ -15,17 +15,16 @@ export const wrapInDiv = x => <div>{x}</div>;
 
 export const wrapInLayout = x => <div className="layout">{x}</div>;
 
-export const home = memop(({ state, dispatch }) =>
+export const home = memop(state =>
   seedPipe(
     concat(title(state[3])),
     concat(
       seedPipe(
-        concat(textInput({ state, dispatch })),
+        concat(textInput(state)),
         concat(
           button({
             textVal: state[0],
             math: state[3],
-            dispatch,
           })
         ),
         map(wrapInDiv)
@@ -36,7 +35,6 @@ export const home = memop(({ state, dispatch }) =>
       navToBtn({
         text: 'Go To Lightbox',
         goto: '/lightbox',
-        dispatch,
       })
     ),
     map(wrapInLayout)

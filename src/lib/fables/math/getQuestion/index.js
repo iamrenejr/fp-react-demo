@@ -1,10 +1,10 @@
 import Future, { chain, resolve } from 'fluture';
 import { map, pipe } from '../../../fp/pointfree';
 import { memop } from '../../../../lib/utils/memo';
+import connect, { dispatch } from '../../../../lib/frp/connect';
 import actions from '../../../../lib/frp/actions';
-import connect from '../../../../lib/frp/connect';
 
-export const getQuestion = memop(({ dispatch }) =>
+export const getQuestion = memop(() =>
   pipe(
     chain(() =>
       Future((_, res) => {

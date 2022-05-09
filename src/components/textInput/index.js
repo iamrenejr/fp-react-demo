@@ -1,11 +1,12 @@
 import { always, contramap } from '../../lib/fp/pointfree';
+import { dispatch } from '../../lib/frp/connect';
 import memo from '../../lib/utils/memo';
 import actions from '../../lib/frp/actions';
 import View from '../../lib/fp/adt/View';
 
 export const textInput = View(p => <input {...p} type="text" />);
 
-export const textInputProps = ({ state, dispatch }) =>
+export const textInputProps = state =>
   always({
     placeholder: 'Put your answer here',
     onChange: ev =>

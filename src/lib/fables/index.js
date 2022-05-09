@@ -1,5 +1,5 @@
-// import {merge} from 'rxjs';
+import { merge } from 'rxjs';
 import getQuestion$ from './math/getQuestion';
+import tickAnimation$ from './lightbox/tickAnimation';
 
-export default getQuestion$;
-// export default merge(getQuestion)
+export default merge(getQuestion$, tickAnimation$);

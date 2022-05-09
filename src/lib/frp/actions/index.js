@@ -12,7 +12,9 @@ export const pageActions = {
     RESULTS_FLAG: 0,
   },
   lightbox: {
+    ANIMATION_DELAY: 100,
     BOX_INDEX: 0,
+    LIGHTS_COUNT: 15,
   },
 };
 

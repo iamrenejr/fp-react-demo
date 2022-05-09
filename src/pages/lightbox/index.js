@@ -1,7 +1,8 @@
 import lightBox from '../../components/lightBox';
 import navToBtn from '../../components/navToBtn';
+import setSpeedBtn from '../../components/setSpeedBtn';
 
-import { concat, map, seedPipe } from '../../lib/fp/pointfree';
+import { add, concat, map, seedPipe } from '../../lib/fp/pointfree';
 import memo, { memop } from '../../lib/utils/memo';
 import actions from '../../lib/frp/actions';
 import connect from '../../lib/frp/connect';
@@ -19,12 +20,10 @@ export const lightStateCalculator = size =>
   );
 
 export const wrapLights = x => <div className="lightbox">{x}</div>;
-
 export const wrapCmdBtns = x => <div className="cmd-btns">{x}</div>;
-
 export const wrapInDiv = x => <div className="light-layout">{x}</div>;
 
-export const lightbox = memop(([step, lightsCount]) =>
+export const lightbox = memop(([step, lightsCount, delay]) =>
   seedPipe(
     concat(
       seedPipe(
@@ -44,6 +43,20 @@ export const lightbox = memop(([step, lightsCount]) =>
             goto: '/',
           })
         ),
+        concat(
+          setSpeedBtn({
+            text: 'Faster',
+            speed: add(-45),
+            disabled: delay <= 10,
+          })
+        ),
+        concat(
+          setSpeedBtn({
+            text: 'Slower',
+            speed: add(45),
+            disabled: delay >= 300,
+          })
+        ),
         map(wrapCmdBtns)
       )
     ),
@@ -54,4 +67,5 @@ export const lightbox = memop(([step, lightsCount]) =>
 export default connect([
   actions.page.lightbox.BOX_INDEX,
   actions.page.lightbox.LIGHTS_COUNT,
+  actions.page.lightbox.ANIMATION_DELAY,
 ])(lightbox);

@@ -3,6 +3,8 @@ import memo from '../../lib/utils/memo';
 import actions from '../../lib/frp/actions';
 import View from '../../lib/fp/adt/View';
 
+import './styles.scss';
+
 export const button = View(({ text, ...p }) => (
   <button {...p}>{text}</button>
 ));

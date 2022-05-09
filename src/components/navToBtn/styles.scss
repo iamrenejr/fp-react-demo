@@ -1,0 +1,8 @@
+@import "bourbon";
+
+.nav-to-btn {
+	@include margin(10px);
+	@include padding(7px);
+
+	border-radius: 10px;
+}

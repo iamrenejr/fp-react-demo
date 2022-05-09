@@ -1,0 +1,25 @@
+@import "bourbon";
+
+.light-layout {
+	@include position(absolute, 0 0 0 0);
+	@include size(100%);
+
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.lightbox {
+	display: flex;
+	flex-flow: row-reverse wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.cmd-btns {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+}

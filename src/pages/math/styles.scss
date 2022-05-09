@@ -27,10 +27,3 @@
 	background: rgba(225, 225, 225, 0.25);
 	border-radius: 10px;
 }
-
-.submit {
-	@include margin(10px);
-	@include padding(7px);
-
-	border-radius: 10px;
-}

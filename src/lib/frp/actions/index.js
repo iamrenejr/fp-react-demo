@@ -14,7 +14,7 @@ export const pageActions = {
   lightbox: {
     ANIMATION_DELAY: 100,
     BOX_INDEX: 0,
-    LIGHTS_COUNT: 15,
+    LIGHTS_COUNT: 5,
   },
 };
 
@@ -25,6 +25,9 @@ export const fableActions = {
       addend2: 0,
       correctAnswer: 0,
     },
+  },
+  navigation: {
+    GOTO_PATH: location.href,
   },
 };
 

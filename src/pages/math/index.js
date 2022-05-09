@@ -2,6 +2,7 @@ import title from '../../components/title';
 import button from '../../components/button';
 import textInput from '../../components/textInput';
 import resultsBox from '../../components/resultsBox';
+import navToBtn from '../../components/navToBtn';
 
 import { concat, map, seedPipe } from '../../lib/fp/pointfree';
 import { memop } from '../../lib/utils/memo';
@@ -14,23 +15,30 @@ export const wrapInDiv = x => <div>{x}</div>;
 
 export const wrapInLayout = x => <div className="layout">{x}</div>;
 
-export const home = memop(store =>
+export const home = memop(({ state, dispatch }) =>
   seedPipe(
-    concat(title(store.state[3])),
+    concat(title(state[3])),
     concat(
       seedPipe(
-        concat(textInput(store)),
+        concat(textInput({ state, dispatch })),
         concat(
           button({
-            textVal: store.state[0],
-            math: store.state[3],
-            dispatch: store.dispatch,
+            textVal: state[0],
+            math: state[3],
+            dispatch,
           })
         ),
         map(wrapInDiv)
       )
     ),
-    concat(resultsBox(store.state[2])),
+    concat(resultsBox(state[2])),
+    concat(
+      navToBtn({
+        text: 'Go To Lightbox',
+        goto: '/lightbox',
+        dispatch,
+      })
+    ),
     map(wrapInLayout)
   )
 );

@@ -1,5 +1,5 @@
-import Future, { chain, resolve } from 'fluture';
-import { add, compose, map, pipe } from '../../../fp/pointfree';
+import Future, { chain } from 'fluture';
+import { add, compose, fablePipe, map } from '../../../fp/pointfree';
 import memo, { memop } from '../../../../lib/utils/memo';
 import connect, { dispatch } from '../../../../lib/frp/connect';
 import actions from '../../../../lib/frp/actions';
@@ -9,7 +9,7 @@ const maxLightStateStep = memo(i =>
 );
 
 export const tickAnimation = memop(state =>
-  pipe(
+  fablePipe(
     chain(() =>
       Future((_, res) => {
         const [delay, , lightsCount] = state;
@@ -26,7 +26,7 @@ export const tickAnimation = memop(state =>
         payload: step >= maxStep ? 0 : add(1),
       });
     })
-  )(resolve(null))
+  )
 );
 
 export default connect([

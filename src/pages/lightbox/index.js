@@ -2,7 +2,7 @@ import lightBox from '../../components/lightBox';
 import navToBtn from '../../components/navToBtn';
 import setSpeedBtn from '../../components/setSpeedBtn';
 
-import { add, concat, map, seedPipe } from '../../lib/fp/pointfree';
+import { add, concat, map, uiPipe } from '../../lib/fp/pointfree';
 import memo, { memop } from '../../lib/utils/memo';
 import actions from '../../lib/frp/actions';
 import connect from '../../lib/frp/connect';
@@ -24,9 +24,9 @@ export const wrapCmdBtns = x => <div className="cmd-btns">{x}</div>;
 export const wrapInDiv = x => <div className="light-layout">{x}</div>;
 
 export const lightbox = memop(([step, lightsCount, delay]) =>
-  seedPipe(
+  uiPipe(
     concat(
-      seedPipe(
+      uiPipe(
         concat(
           lightStateCalculator(lightsCount)(step)
             .map(lightBox)
@@ -36,7 +36,7 @@ export const lightbox = memop(([step, lightsCount, delay]) =>
       )
     ),
     concat(
-      seedPipe(
+      uiPipe(
         concat(
           navToBtn({
             text: 'Go To Math',
@@ -54,7 +54,7 @@ export const lightbox = memop(([step, lightsCount, delay]) =>
           setSpeedBtn({
             text: 'Slower',
             speed: add(45),
-            disabled: delay >= 300,
+            disabled: delay >= 120,
           })
         ),
         map(wrapCmdBtns)

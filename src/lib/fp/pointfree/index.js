@@ -1,3 +1,4 @@
+import { resolve } from 'fluture';
 import { always, compose, map, pipe } from 'ramda';
 import View from '../adt/View';
 
@@ -25,7 +26,11 @@ export const flip = f => x => y => f(y)(x);
 
 export const seed = f => compose(f, View.of)(<></>);
 
-export const seedPipe = compose(seed, pipe);
+export const uiPipe = compose(seed, pipe);
+
+export const nullFuture = resolve(null);
+
+export const fablePipe = (...x) => pipe(...x)(nullFuture);
 
 export const asObservable = s$ => s$.asObservable();
 

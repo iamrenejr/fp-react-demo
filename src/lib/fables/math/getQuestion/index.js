@@ -1,11 +1,11 @@
-import Future, { chain, resolve } from 'fluture';
-import { map, pipe } from '../../../fp/pointfree';
+import Future, { chain } from 'fluture';
+import { fablePipe, map } from '../../../fp/pointfree';
 import { memop } from '../../../../lib/utils/memo';
 import connect, { dispatch } from '../../../../lib/frp/connect';
 import actions from '../../../../lib/frp/actions';
 
 export const getQuestion = memop(() =>
-  pipe(
+  fablePipe(
     chain(() =>
       Future((_, res) => {
         const timer = setTimeout(() => {
@@ -27,7 +27,7 @@ export const getQuestion = memop(() =>
         payload,
       });
     })
-  )(resolve(null))
+  )
 );
 
 export default connect([actions.page.math.ANSWER])(getQuestion);

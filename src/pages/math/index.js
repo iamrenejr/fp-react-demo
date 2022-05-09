@@ -4,7 +4,7 @@ import textInput from '../../components/textInput';
 import resultsBox from '../../components/resultsBox';
 import navToBtn from '../../components/navToBtn';
 
-import { concat, map, seedPipe } from '../../lib/fp/pointfree';
+import { concat, map, uiPipe } from '../../lib/fp/pointfree';
 import { memop } from '../../lib/utils/memo';
 import actions from '../../lib/frp/actions';
 import connect from '../../lib/frp/connect';
@@ -16,10 +16,10 @@ export const wrapInDiv = x => <div>{x}</div>;
 export const wrapInLayout = x => <div className="layout">{x}</div>;
 
 export const home = memop(state =>
-  seedPipe(
+  uiPipe(
     concat(title(state[3])),
     concat(
-      seedPipe(
+      uiPipe(
         concat(textInput(state)),
         concat(
           button({

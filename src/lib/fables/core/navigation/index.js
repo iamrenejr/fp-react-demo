@@ -1,11 +1,11 @@
-import Future, { chain, resolve } from 'fluture';
-import { map, noop, pipe } from '../../../fp/pointfree';
+import Future, { chain } from 'fluture';
+import { fablePipe, map, noop } from '../../../fp/pointfree';
 import { memop } from '../../../../lib/utils/memo';
 import actions from '../../../../lib/frp/actions';
 import connect from '../../../../lib/frp/connect';
 
 export const navigation = memop(state =>
-  pipe(
+  fablePipe(
     chain(() =>
       Future((_, res) => {
         const curr = location.pathname;
@@ -15,7 +15,7 @@ export const navigation = memop(state =>
       })
     ),
     map(goto => goto && (location.href = goto))
-  )(resolve(null))
+  )
 );
 
 export default connect([

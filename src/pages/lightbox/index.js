@@ -6,6 +6,7 @@ import {
   seedPipe,
   tap,
 } from '../../lib/fp/pointfree';
+import onUnmount from '../../lib/utils/onUnmount';
 import lightBox from '../../components/lightBox';
 import actions from '../../lib/frp/actions';
 import connect from '../../lib/frp/connect';
@@ -33,17 +34,18 @@ const wrapInDiv = x => <div className="lightbox">{x}</div>;
 export const lightbox = memop(({ state: [step], dispatch }) =>
   seedPipe(
     tap(() => {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const maxStep = maxLightStateStep(MAX_LIGHTS);
         dispatch({
-          type: actions.BOX_INDEX,
+          type: actions.page.lightbox.BOX_INDEX,
           payload: step >= maxStep ? 0 : add(1),
         });
-      }, 1);
+      }, 100);
+      onUnmount(() => clearTimeout(timer));
     }),
     concat(lightState(step).map(lightBox).reduce(concat, View.empty)),
     map(wrapInDiv)
   )
 );
 
-export default connect([actions.BOX_INDEX])(lightbox);
+export default connect([actions.page.lightbox.BOX_INDEX])(lightbox);

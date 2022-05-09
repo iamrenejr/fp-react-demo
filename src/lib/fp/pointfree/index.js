@@ -7,10 +7,13 @@ export {
   chain,
   concat,
   compose,
+  flatten,
   identity,
   map,
   pipe,
 } from 'ramda';
+
+export const noop = always({});
 
 export const toNull = always(null);
 
@@ -25,3 +28,6 @@ export const seed = f => compose(f, View.of)(<></>);
 export const seedPipe = compose(seed, pipe);
 
 export const asObservable = s$ => s$.asObservable();
+
+export const mapN = (n, f) =>
+  n === 1 ? map(f) : map(mapN(n - 1, f));

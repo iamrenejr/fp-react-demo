@@ -7,18 +7,24 @@ export const button = View(({ text, ...p }) => (
   <button {...p}>{text}</button>
 ));
 
-export const buttonProps = ({ state, dispatch }) =>
+export const buttonProps = ({ textVal, math, dispatch }) =>
   always({
     text: 'Submit',
     onClick: _ => {
-      const [textVal] = state;
-      dispatch({ type: actions.INPUT_TEXT, payload: '' });
-      dispatch({ type: actions.ANSWER, payload: textVal });
+      dispatch({
+        type: actions.page.math.INPUT_TEXT,
+        payload: '',
+      });
+      dispatch({
+        type: actions.page.math.ANSWER,
+        payload: textVal,
+      });
+      dispatch({
+        type: actions.page.math.RESULTS_FLAG,
+        payload: Number(textVal) === math.correctAnswer ? 1 : -1,
+      });
     },
-    disabled: (() => {
-      const [textVal] = state;
-      return textVal === actions.INPUT_TEXT || textVal === '';
-    })(),
+    disabled: textVal === '',
     className: 'submit',
   });
 

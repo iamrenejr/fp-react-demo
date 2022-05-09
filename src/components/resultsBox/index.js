@@ -6,16 +6,14 @@ export const results = View(({ text, ...p }) =>
   text ? <span {...p}>{text}</span> : null
 );
 
-export const resultsProps = ({ state }) =>
+export const resultsProps = resultsFlag =>
   always({
-    text: (() => {
-      const [textVal, ans] = state;
-      return (!textVal && !ans) || textVal
+    text:
+      resultsFlag === 0
         ? null
-        : Number(ans) === 21
+        : resultsFlag === 1
         ? 'Correct! :)'
-        : 'Incorrect! :(';
-    })(),
+        : 'Incorrect! :(',
     className: 'results',
   });
 

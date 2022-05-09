@@ -10,10 +10,6 @@ export const title = View(p => (
   </header>
 ));
 
-export const titleProps = () =>
-  always({
-    addend1: 12,
-    addend2: 9,
-  });
+export const titleProps = always;
 
 export default memo(store => contramap(titleProps(store))(title));

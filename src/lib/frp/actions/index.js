@@ -1,12 +1,63 @@
-export const actionDefaults = {
-  INPUT_TEXT: '',
-  ANSWER: '',
-  BOX_INDEX: 0,
+import { fromJS, Map } from 'immutable';
+import { always, compose, map, pipe } from '../../fp/pointfree';
+import toErrorState from '../../utils/toErrorState';
+
+export const PAGE = 'page';
+export const FABLE = 'fable';
+
+export const pageActions = {
+  math: {
+    INPUT_TEXT: '',
+    ANSWER: '',
+    RESULTS_FLAG: 0,
+  },
+  lightbox: {
+    BOX_INDEX: 0,
+  },
 };
 
-export const actions = Object.keys(actionDefaults).reduce(
-  (a, i) => ({ ...a, [i]: i }),
-  {}
+export const fableActions = {
+  getQuestion: {
+    MATH_QUESTION: {
+      addend1: 0,
+      addend2: 0,
+      correctAnswer: 0,
+    },
+  },
+};
+
+export const toImmActions = cb =>
+  pipe(
+    fromJS,
+    map((actions, ns1) =>
+      pipe(
+        map(compose(fromJS, cb(ns1))), //
+        list => list.flatten(true)
+      )(actions)
+    )
+  );
+
+export const toImmActionDefaults = toImmActions(
+  always((init, type) => ({
+    [type]: init,
+    [toErrorState(type)]: null,
+  }))
 );
 
-export default actions;
+export const toImmActionNames = ns0 =>
+  toImmActions(ns1 => (_, type) => ({
+    [type]: [ns0, ns1, type],
+    [toErrorState(type)]: [ns0, ns1, toErrorState(type)],
+  }));
+
+export const actionDefaults = Map({
+  [PAGE]: toImmActionDefaults(pageActions),
+  [FABLE]: toImmActionDefaults(fableActions),
+});
+
+export const actions = Map({
+  [PAGE]: toImmActionNames(PAGE)(pageActions),
+  [FABLE]: toImmActionNames(FABLE)(fableActions),
+});
+
+export default actions.toJS();

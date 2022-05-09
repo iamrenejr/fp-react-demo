@@ -6,10 +6,10 @@ const View = f => ({
   chain: g => View(x => f(x).concat(y => g(y).f(x))),
   fold: f,
   concat: x =>
-    View(p => (
+    View(y => (
       <>
-        {x.fold(p)}
-        {f(p)}
+        {x.fold(y)}
+        {f(y)}
       </>
     )),
 });

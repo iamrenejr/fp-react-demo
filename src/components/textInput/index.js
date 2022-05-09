@@ -9,14 +9,17 @@ export const textInputProps = ({ state, dispatch }) =>
   always({
     placeholder: 'Put your answer here',
     onChange: ev =>
-      dispatch({
-        type: actions.INPUT_TEXT,
-        payload: ev.target.value,
-      }),
-    value: (() => {
-      const [textVal] = state;
-      return textVal === actions.INPUT_TEXT ? '' : textVal;
-    })(),
+      dispatch([
+        {
+          type: actions.page.math.INPUT_TEXT,
+          payload: ev.target.value,
+        },
+        {
+          type: actions.page.math.RESULTS_FLAG,
+          payload: 0,
+        },
+      ]),
+    value: state[0],
     className: 'answer-box',
   });
 

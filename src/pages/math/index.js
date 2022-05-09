@@ -16,17 +16,28 @@ export const wrapInLayout = x => <div className="layout">{x}</div>;
 
 export const home = memop(store =>
   seedPipe(
-    concat(title(store)),
+    concat(title(store.state[3])),
     concat(
       seedPipe(
         concat(textInput(store)),
-        concat(button(store)),
+        concat(
+          button({
+            textVal: store.state[0],
+            math: store.state[3],
+            dispatch: store.dispatch,
+          })
+        ),
         map(wrapInDiv)
       )
     ),
-    concat(resultsBox(store)),
+    concat(resultsBox(store.state[2])),
     map(wrapInLayout)
   )
 );
 
-export default connect([actions.INPUT_TEXT, actions.ANSWER])(home);
+export default connect([
+  actions.page.math.INPUT_TEXT,
+  actions.page.math.ANSWER,
+  actions.page.math.RESULTS_FLAG,
+  actions.fable.getQuestion.MATH_QUESTION,
+])(home);

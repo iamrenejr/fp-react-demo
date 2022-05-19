@@ -6,7 +6,7 @@ import View from '../../lib/fp/adt/View';
 
 export const textInput = View(p => <input {...p} type="text" />);
 
-export const textInputProps = state =>
+export const textInputProps = value =>
   always({
     placeholder: 'Put your answer here',
     onChange: ev =>
@@ -20,7 +20,7 @@ export const textInputProps = state =>
           payload: 0,
         },
       ]),
-    value: state[0],
+    value,
     className: 'answer-box',
   });
 

@@ -15,7 +15,7 @@ export const navToBtnProps = ({ text, goto }) =>
     text,
     onClick: () => {
       dispatch({
-        type: actions.fable.navigation.GOTO_PATH,
+        type: actions.fable.navigation.NAVIGATE,
         payload: goto,
       });
     },

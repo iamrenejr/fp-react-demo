@@ -14,7 +14,7 @@ export const pageActions = {
   lightbox: {
     ANIMATION_DELAY: 100,
     BOX_INDEX: 0,
-    LIGHTS_COUNT: 5,
+    LIGHTS_COUNT: 10,
   },
 };
 
@@ -23,11 +23,11 @@ export const fableActions = {
     MATH_QUESTION: {
       addend1: 0,
       addend2: 0,
-      correctAnswer: 0,
+      answer: 0,
     },
   },
   navigation: {
-    GOTO_PATH: location.href,
+    NAVIGATE: location.href,
   },
 };
 

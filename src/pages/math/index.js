@@ -13,14 +13,16 @@ import './styles.scss';
 
 export const wrapInDiv = x => <div>{x}</div>;
 
-export const wrapInLayout = x => <div className="layout">{x}</div>;
+export const wrapInLayout = x => (
+  <div className="math-layout">{x}</div>
+);
 
-export const home = memop(state =>
+export const home = memop(([state]) =>
   uiPipe(
     concat(title(state[3])),
     concat(
       uiPipe(
-        concat(textInput(state)),
+        concat(textInput(state[0])),
         concat(
           button({
             textVal: state[0],

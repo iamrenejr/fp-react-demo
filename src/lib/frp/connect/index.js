@@ -16,8 +16,9 @@ export const dispatch = actions => {
     const channel$ = channels.getIn(type);
     const prevState = channel$.getValue();
     const newState = isFunc(payload) ? payload(prevState) : payload;
-    if (prevState === newState) return;
+    if (prevState === newState) return false;
     channel$.next(newState);
+    return true;
   });
 };
 
@@ -25,7 +26,7 @@ export const connect = stateKeys => page =>
   new Observable(obs => {
     const next = compose(x => obs.next(x), page);
     const combined$ = keysToObservable(stateKeys);
-    combined$.subscribe(next);
+    combined$.subscribe(state => next([state, dispatch]));
   });
 
 export default connect;

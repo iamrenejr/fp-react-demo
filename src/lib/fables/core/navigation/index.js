@@ -1,23 +1,16 @@
-import Future, { chain } from 'fluture';
-import { fablePipe, map, noop } from '../../../fp/pointfree';
-import { memop } from '../../../../lib/utils/memo';
-import actions from '../../../../lib/frp/actions';
-import connect from '../../../../lib/frp/connect';
+import { enfable, noop } from '../../../fp/pointfree';
+import actions from '../../../frp/actions';
+import connect from '../../../frp/connect';
 
-export const navigation = memop(state =>
-  fablePipe(
-    chain(() =>
-      Future((_, res) => {
-        const curr = location.pathname;
-        const [goto] = state;
-        res(goto === curr ? null : goto);
-        return noop;
-      })
-    ),
-    map(goto => goto && (location.href = goto))
-  )
-);
+export const navigation = enfable(store => (rej, res) => {
+  const [state] = store;
+  const [target] = state;
+  const { pathname: source } = location;
+  if (target === source) rej(null);
+  else res((location.href = target));
+  return noop;
+});
 
 export default connect([
-  actions.fable.navigation.GOTO_PATH, //
+  actions.fable.navigation.NAVIGATE, //
 ])(navigation);

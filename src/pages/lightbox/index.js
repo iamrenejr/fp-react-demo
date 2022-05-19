@@ -23,7 +23,7 @@ export const wrapLights = x => <div className="lightbox">{x}</div>;
 export const wrapCmdBtns = x => <div className="cmd-btns">{x}</div>;
 export const wrapInDiv = x => <div className="light-layout">{x}</div>;
 
-export const lightbox = memop(([step, lightsCount, delay]) =>
+export const lightbox = memop(([[step, lightsCount, delay]]) =>
   uiPipe(
     concat(
       uiPipe(

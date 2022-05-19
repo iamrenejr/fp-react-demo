@@ -24,7 +24,7 @@ export const buttonProps = ({ textVal, math }) =>
       });
       dispatch({
         type: actions.page.math.RESULTS_FLAG,
-        payload: Number(textVal) === math.correctAnswer ? 1 : -1,
+        payload: Number(textVal) === math.answer ? 1 : -1,
       });
     },
     disabled: textVal === '',

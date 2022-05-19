@@ -29,14 +29,14 @@ const UISubscription = App$.pipe(
   pairwise()
 ).subscribe(render);
 
-const fableSubscription = fables$.subscribe(data => {
-  const onErr = trace =>
+const fableSubscription = fables$.subscribe(
+  fork(trace =>
     dispatch({
       type: toErrorState(trace.action),
       payload: trace,
-    });
-  fork(onErr)(identity)(data);
-});
+    })
+  )(identity)
+);
 
 onUnmount(() => {
   UISubscription.unsubscribe();

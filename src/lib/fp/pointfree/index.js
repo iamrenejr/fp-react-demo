@@ -1,6 +1,7 @@
-import { resolve } from 'fluture';
+import Future from 'fluture';
 import { always, compose, map, pipe } from 'ramda';
 import View from '../adt/View';
+import { memop } from '../../utils/memo';
 
 export {
   add,
@@ -28,9 +29,7 @@ export const seed = f => compose(f, View.of)(<></>);
 
 export const uiPipe = compose(seed, pipe);
 
-export const nullFuture = resolve(null);
-
-export const fablePipe = (...x) => pipe(...x)(nullFuture);
+export const enfable = cb => memop(compose(Future, cb));
 
 export const asObservable = s$ => s$.asObservable();
 

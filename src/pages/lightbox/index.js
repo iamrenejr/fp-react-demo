@@ -1,12 +1,11 @@
-import lightBox from '../../components/lightBox';
-import navToBtn from '../../components/navToBtn';
-import setSpeedBtn from '../../components/setSpeedBtn';
+import LightBox from '../../components/LightBox';
+import NavToBtn from '../../components/NavToBtn';
+import SetSpeedBtn from '../../components/SetSpeedBtn';
 
-import { add, concat, map, uiPipe } from '../../lib/fp/pointfree';
-import memo, { memop } from '../../lib/utils/memo';
+import { add, rootUI } from '../../lib/fp/pointfree';
 import actions from '../../lib/frp/actions';
 import connect from '../../lib/frp/connect';
-import View from '../../lib/fp/adt/View';
+import memo from '../../lib/utils/memo';
 
 import './styles.scss';
 
@@ -19,50 +18,45 @@ export const lightStateCalculator = size =>
     })
   );
 
-export const wrapLights = x => <div className="lightbox">{x}</div>;
-export const wrapCmdBtns = x => <div className="cmd-btns">{x}</div>;
-export const wrapInDiv = x => <div className="light-layout">{x}</div>;
+export const lightbox = rootUI(store => {
+  const [state, dispatch] = store;
+  const [step, lightsCount, delay] = state;
 
-export const lightbox = memop(([[step, lightsCount, delay]]) =>
-  uiPipe(
-    concat(
-      uiPipe(
-        concat(
-          lightStateCalculator(lightsCount)(step)
-            .map(lightBox)
-            .reduce(concat, View.empty)
-        ),
-        map(wrapLights)
-      )
-    ),
-    concat(
-      uiPipe(
-        concat(
-          navToBtn({
-            text: 'Go To Math',
-            goto: '/',
-          })
-        ),
-        concat(
-          setSpeedBtn({
-            text: 'Faster',
-            speed: add(-45),
-            disabled: delay <= 10,
-          })
-        ),
-        concat(
-          setSpeedBtn({
-            text: 'Slower',
-            speed: add(45),
-            disabled: delay >= 120,
-          })
-        ),
-        map(wrapCmdBtns)
-      )
-    ),
-    map(wrapInDiv)
-  )
-);
+  const toMath = () =>
+    dispatch({
+      type: actions.fable.navigation.NAVIGATE,
+      payload: '/math',
+    });
+
+  const setSpeed = speed => () =>
+    dispatch({
+      type: actions.page.lightbox.ANIMATION_DELAY,
+      payload: add(speed),
+    });
+
+  return (
+    <div className="light-layout">
+      <div className="lightbox">
+        {lightStateCalculator(lightsCount)(step).map((on, idx) => (
+          <LightBox on={on} key={`${idx}-${on}`} />
+        ))}
+      </div>
+      <div className="cmd-btns">
+        <NavToBtn text="Go To Math" onClick={toMath} />
+        <SetSpeedBtn
+          text="Faster"
+          onClick={setSpeed(-45)}
+          disabled={delay <= 10}
+        />
+        <SetSpeedBtn
+          text="Slower"
+          onClick={setSpeed(45)}
+          disabled={delay >= 120}
+        />
+      </div>
+    </div>
+  );
+});
 
 export default connect([
   actions.page.lightbox.BOX_INDEX,

@@ -26,5 +26,4 @@ export const rootUI = cb =>
 
 export const asObservable = s$ => s$.asObservable();
 
-export const mapN = (n, f) =>
-  n === 1 ? map(f) : map(mapN(n - 1, f));
+export const mapN = (n, f) => (n <= 1 ? map(f) : map(mapN(n - 1, f)));

@@ -1,6 +1,6 @@
 import { fromJS, Map } from 'immutable';
 import { always, compose, map, pipe } from '../../fp/pointfree';
-import toErrorState from '../../utils/toErrorState';
+import deriveErrorState from '../../utils/deriveErrorState';
 
 export const PAGE = 'page';
 export const FABLE = 'fable';
@@ -45,14 +45,14 @@ export const toImmActions = cb =>
 export const toImmActionDefaults = toImmActions(
   always((init, type) => ({
     [type]: init,
-    [toErrorState(type)]: null,
+    [deriveErrorState(type)]: null,
   }))
 );
 
 export const toImmActionNames = ns0 =>
   toImmActions(ns1 => (_, type) => ({
     [type]: [ns0, ns1, type],
-    [toErrorState(type)]: [ns0, ns1, toErrorState(type)],
+    [deriveErrorState(type)]: [ns0, ns1, deriveErrorState(type)],
   }));
 
 export const actionDefaults = Map({

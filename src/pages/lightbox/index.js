@@ -2,10 +2,11 @@ import LightBox from '../../components/LightBox';
 import NavToBtn from '../../components/NavToBtn';
 import SetSpeedBtn from '../../components/SetSpeedBtn';
 
-import { add, rootUI } from '../../lib/fp/pointfree';
+import { add, pagify } from '../../lib/fp/pointfree';
 import actions from '../../lib/frp/actions';
 import connect from '../../lib/frp/connect';
 import memo from '../../lib/utils/memo';
+import navigate from '../../lib/utils/navigate';
 
 import './styles.scss';
 
@@ -18,15 +19,11 @@ export const lightStateCalculator = size =>
     })
   );
 
-export const lightbox = rootUI(store => {
+export const lightbox = pagify(store => {
   const [state, dispatch] = store;
   const [step, lightsCount, delay] = state;
 
-  const toMath = () =>
-    dispatch({
-      type: actions.fable.navigation.NAVIGATE,
-      payload: '/math',
-    });
+  const toMath = navigate('/math');
 
   const setSpeed = speed => () =>
     dispatch({

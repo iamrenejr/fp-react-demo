@@ -4,15 +4,17 @@ import SubmitAnswer from '../../components/SubmitAnswer';
 import ResultsBox from '../../components/ResultsBox';
 import NavToBtn from '../../components/NavToBtn';
 
-import { rootUI } from '../../lib/fp/pointfree';
+import { pagify } from '../../lib/fp/pointfree';
 import actions from '../../lib/frp/actions';
 import connect from '../../lib/frp/connect';
 
+import navigate from '../../lib/utils/navigate';
+
 import './styles.scss';
 
-export const home = rootUI(store => {
+export const home = pagify(store => {
   const [state, dispatch] = store;
-  const [textVal, , result, math] = state;
+  const [textVal, result, math] = state;
 
   const onTextInput = ev =>
     dispatch([
@@ -41,11 +43,7 @@ export const home = rootUI(store => {
     });
   };
 
-  const toLightbox = () =>
-    dispatch({
-      type: actions.fable.navigation.NAVIGATE,
-      payload: '/lightbox',
-    });
+  const toLightbox = navigate('/lightbox');
 
   return (
     <div className="math-layout">
@@ -62,7 +60,6 @@ export const home = rootUI(store => {
 
 export default connect([
   actions.page.math.INPUT_TEXT,
-  actions.page.math.ANSWER,
   actions.page.math.RESULTS_FLAG,
   actions.fable.getQuestion.MATH_QUESTION,
 ])(home);

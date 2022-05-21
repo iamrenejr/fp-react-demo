@@ -4,6 +4,7 @@
 	@include position(absolute, 0 0 0 0);
 	@include size(100%);
 
+	contain: content;
 	display: flex;
 	flex-flow: column wrap;
 	justify-content: center;

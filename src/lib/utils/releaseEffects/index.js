@@ -1,10 +1,9 @@
 import React from 'react';
 import { pairwise, startWith } from 'rxjs';
 import { fork } from 'fluture';
-
 import { identity } from '../../fp/pointfree';
 import { dispatch } from '../../frp/connect';
-import toErrorState from '../toErrorState';
+import deriveErrorState from '../deriveErrorState';
 
 export const cleanOnUnmount = streams => {
   const EVENT = 'beforeunload';
@@ -30,7 +29,7 @@ export const dispatchEvents = f$ =>
   f$.subscribe(
     fork(trace =>
       dispatch({
-        type: toErrorState(trace.action),
+        type: deriveErrorState(trace.action),
         payload: trace,
       })
     )(identity)
